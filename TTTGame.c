@@ -15,6 +15,28 @@ void board_init(int board[X][Y]) {
         }
     }
 }
+//get_symbol
+//parameters:   player_value is an integer representing the value from the board
+//returns:      character symbol for the space (X, O, or _)
+//this function will translate the numbers of the board to symbols
+char get_symbol(int player_value) {
+    char symbol;
+
+    switch (player_value) {
+        case 1:
+            symbol = 'X';
+            break;
+        case 2:
+            symbol = 'O';
+            break;
+        default:
+            symbol = '_';
+            break;
+
+    }
+
+    return symbol;
+}
 
 //print_board
 //parameters:   board is a matrix representing the playable board
@@ -23,7 +45,9 @@ void board_init(int board[X][Y]) {
 void print_board(const int board[X][Y]) {
     printf("     1   2   3  \n");
     for (int i = 0; i < Y; i++) {
-        printf("%d  | %d | %d | %d |\n", (i+1), board[i][0], board[i][1], board[i][2]);
+        printf("%d  | %c | %c | %c |\n", (i+1), get_symbol(board[i][0]), 
+                                                get_symbol(board[i][1]),
+                                                get_symbol(board[i][2]));
     }
 }
 
@@ -174,6 +198,8 @@ void easy_bot_decision(int board[X][Y]) {
 //            which can either be maximize or minimize
 //returns:    int representing the best score evaluated
 //this function is a minimax implementation for the hard bot
+//created with help from:
+//http://www.geeksforgeeks.org/minimax-algorithm-in-game-theory-set-3-tic-tac-toe-ai-finding-optimal-move/
 int hard_bot_minimax(int board[X][Y], int depth, enum max_min maximizing) {
     int score = 0;
     int best_val;
@@ -202,7 +228,7 @@ int hard_bot_minimax(int board[X][Y], int depth, enum max_min maximizing) {
             for (int j = 0; j < Y; j++) {
                 if (board[i][j] == 0) {
                     board[i][j] = 2;
-                    next_move = hard_bot_minimax(board, depth+1, !maximizing);
+                    next_move = hard_bot_minimax(board, depth+1, minimize);
                     best_val = get_max_score(best_val, next_move);
                     board[i][j] = 0;
                 }
@@ -217,7 +243,7 @@ int hard_bot_minimax(int board[X][Y], int depth, enum max_min maximizing) {
             for (int j = 0; j < Y; j++) {
                 if (board[i][j] == 0) {
                     board[i][j] = 1;
-                    next_move = hard_bot_minimax(board, depth+1, !maximizing);
+                    next_move = hard_bot_minimax(board, depth+1, maximize);
                     best_val = get_min_score(best_val, next_move);
                     board[i][j] = 0;
                 }
@@ -231,6 +257,8 @@ int hard_bot_minimax(int board[X][Y], int depth, enum max_min maximizing) {
 //parameters:   board is a matrix representing the playable board
 //returns:      none
 //this function will use a minimax implementation to get the best move for the given board
+//created with help from:
+//http://www.geeksforgeeks.org/minimax-algorithm-in-game-theory-set-3-tic-tac-toe-ai-finding-optimal-move/
 void hard_bot_decision(int board[X][Y]) {
     int best = INT_MIN;
     int move_score;

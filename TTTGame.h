@@ -7,6 +7,7 @@ static const int X = 3;
 static const int Y = 3;
 
 void board_init(int board[X][Y]);
+char get_symbol(int player_value);
 void print_board(const int board[X][Y]);
 int update_board(int board[X][Y],int player_x, int player_y);
 int get_max_score(int score_a, int score_b);

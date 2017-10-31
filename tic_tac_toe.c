@@ -27,7 +27,7 @@ int main(int argc, char *argv[]) {
             srand(time(NULL));
         }
 
-        printf("Player is: %d , Difficulty: %s\n", 1, diff_choice);
+        printf("Player is: %c , Difficulty: %s\n", 'X', diff_choice);
         board_init(board);
         do {
             print_board(board);
