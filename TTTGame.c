@@ -176,7 +176,7 @@ void easy_bot_decision(int board[X][Y]) {
 //this function is a minimax implementation for the hard bot
 int hard_bot_minimax(int board[X][Y], int depth, enum max_min maximizing) {
     int score = 0;
-    int best;
+    int best_val;
     int next_move;
     enum win_state test_player = not_won;
     enum win_state test_cpu = not_won;
@@ -187,45 +187,43 @@ int hard_bot_minimax(int board[X][Y], int depth, enum max_min maximizing) {
         score = (score + 10) - depth;
         return score;
     }
-
     if (test_player == game_won) {
         score = (score - 10) + depth;
         return score;
     }
-
     if (test_player == game_draw || test_cpu == game_draw) {
         return score;
     }
 
     if (maximizing) {
-        best = INT_MIN;
+        best_val = INT_MIN;
 
         for (int i = 0; i < X; i++) {
             for (int j = 0; j < Y; j++) {
                 if (board[i][j] == 0) {
                     board[i][j] = 2;
                     next_move = hard_bot_minimax(board, depth+1, !maximizing);
-                    best = get_max_score(best, next_move);
+                    best_val = get_max_score(best_val, next_move);
                     board[i][j] = 0;
                 }
             }
         }
-        return best;
+        return best_val;
     }
     else {
-        best = INT_MAX;
+        best_val = INT_MAX;
 
         for (int i = 0; i < X; i++) {
             for (int j = 0; j < Y; j++) {
                 if (board[i][j] == 0) {
                     board[i][j] = 1;
                     next_move = hard_bot_minimax(board, depth+1, !maximizing);
-                    best = get_min_score(best, next_move);
+                    best_val = get_min_score(best_val, next_move);
                     board[i][j] = 0;
                 }
             }
         }
-        return best;
+        return best_val;
     }
 }
 
