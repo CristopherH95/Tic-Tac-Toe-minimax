@@ -255,7 +255,9 @@ void hard_bot_decision(int board[X][Y]) {
         }
     }
     fprintf(stderr, "AI move: %d %d\n", move_x, move_y);
-    board[move_x][move_y] = 2;
+    if (!(move_x < 0 || move_y < 0)) {
+        board[move_x][move_y] = 2;
+    }
 }
 
 //bot_move
